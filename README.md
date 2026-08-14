@@ -26,6 +26,5 @@ This repository is created to maintain and document my DSA practical programs du
 
 | No. | Practical | Topic | Language |
 |-----|-----------|-------|----------|
-| 01 | Array Operations | Array | C++ |
-| 02 | Infix to Postfix | Stack | C++ |
-| 03 | Valid Parentheses | Stack | C++ |
+| 01 | Binary and Linear Searching | Array | C++ |
+
