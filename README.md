@@ -1,4 +1,4 @@
-# DSA Practicals
+# DSA Practicals 2nd year
 
 This repository contains my Data Structures and Algorithms practical programs implemented in C++.
 
