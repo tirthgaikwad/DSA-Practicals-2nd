@@ -27,4 +27,4 @@ This repository is created to maintain and document my DSA practical programs du
 | No. | Practical | Topic | Language |
 |-----|-----------|-------|----------|
 | 01 | Binary and Linear Searching | Array | C++ |
-
+| 02 | Bubble and Selection Sorting | Array | c++ |
