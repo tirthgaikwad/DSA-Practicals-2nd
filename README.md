@@ -29,3 +29,4 @@ This repository is created to maintain and document my DSA practical programs du
 | 01 | Binary and Linear Searching | Array | C++ |
 | 02 | Bubble and Selection Sorting | Array | C++ |
 | 03 | Well-Parenthesized Expression | Stack | C++ |
+| 04 | Pizza Parlor System | Queue | C++ |
