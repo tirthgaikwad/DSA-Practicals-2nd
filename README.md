@@ -31,5 +31,5 @@ This repository is created to maintain and document my DSA practical programs du
 | 03 | Well-Parenthesized Expression | Stack | C++ |
 | 04 | Pizza Parlor System | Queue | C++ |
 | 05 | Pinnacle Club | Singly Linked List | C++ |
-| 06 | Binary Search Tree (BST) | Tree | C++ |
+| 09 | Binary Search Tree (BST) | Tree | C++ |
 
