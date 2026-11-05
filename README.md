@@ -32,4 +32,6 @@ This repository is created to maintain and document my DSA practical programs du
 | 04 | Pizza Parlor System | Queue | C++ |
 | 05 | Pinnacle Club | Singly Linked List | C++ |
 | 09 | Binary Search Tree (BST) | Tree | C++ |
+| 10 | Flight Routes Using (Adjacency Matrix) | Graph | C++ |
+
 
