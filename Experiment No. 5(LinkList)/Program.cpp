@@ -1,451 +1,242 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-struct node
+struct Node
 {
     int PRN;
     string name;
-    node *next;
+    Node *next;
 };
 
-struct List
+class List
 {
-    node *head;
-    node *tail;
+    Node *head = NULL;
 
-    List()
+public:
+    Node *createNode(int PRN, string name)
     {
-        head = tail = NULL;
+        Node *nn = new Node();
+        nn->PRN = PRN;
+        nn->name = name;
+        nn->next = NULL;
+        return nn;
     }
 
-    void addP(int prn, string Name)
+public:
+    void Addpre(int prn, string name)
     {
-        node *newNode = new node();
+        Node *nn = createNode(prn, name);
+        nn->next = head;
+        head = nn;
+        cout << "ADD preenint properly\n";
+    }
 
-        newNode->PRN = prn;
-        newNode->name = Name;
-        newNode->next = NULL;
-
+public:
+    void Addsec(int prn, string name)
+    {
+        Node *nn = createNode(prn, name);
         if (head == NULL)
         {
-            head = tail = newNode;
+            head = nn;
         }
         else
         {
-            newNode->next = head;
-            head = newNode;
+            Node *temp = head;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            temp->next = nn;
+            cout << "SUssecfully add sec\n";
         }
     }
 
-    void addM(int prn, string Name)
+public:
+    void addMem(int prn, string name)
     {
+        Node *nn = createNode(prn, name);
         if (head == NULL)
         {
-            cout << "First add President." << endl;
-            return;
+            head = nn;
         }
-
-        node *newNode = new node();
-
-        newNode->PRN = prn;
-        newNode->name = Name;
-        newNode->next = NULL;
-
-        tail->next = newNode;
-        tail = newNode;
+        else
+        {
+            Node *temp = head;
+            while (temp->next != NULL && temp->next->next != NULL)
+            {
+                temp = temp->next;
+            }
+            if (temp->next == NULL)
+            {
+                temp->next = nn;
+            }
+            else
+            {
+                nn->next = temp->next;
+                temp->next = nn;
+            }
+        }
+        cout << "ADDed member\n";
     }
 
-    void addS(int prn, string Name)
+public:
+    void display()
     {
         if (head == NULL)
         {
-            cout << "First add President." << endl;
+            cout << "club is empty\n";
             return;
         }
-
-        node *newNode = new node();
-
-        newNode->PRN = prn;
-        newNode->name = Name;
-        newNode->next = NULL;
-
-        tail->next = newNode;
-        tail = newNode;
-    }
-
-    void delP()
-    {
-        if (head == NULL)
-        {
-            cout << "Club is empty." << endl;
-            return;
-        }
-
-        node *temp = head;
-
-        head = head->next;
-
-        delete temp;
-
-        if (head == NULL)
-        {
-            tail = NULL;
-        }
-    }
-
-    void delS()
-    {
-        if (head == NULL)
-        {
-            cout << "Club is empty." << endl;
-            return;
-        }
-
-        if (head == tail)
-        {
-            delete head;
-            head = tail = NULL;
-            return;
-        }
-
-        node *temp = head;
-
-        while (temp->next != tail)
-        {
-            temp = temp->next;
-        }
-
-        delete tail;
-
-        tail = temp;
-        tail->next = NULL;
-    }
-
-    void delM(int prn)
-    {
-        if (head == NULL)
-        {
-            cout << "Club is empty." << endl;
-            return;
-        }
-
-        if (head->PRN == prn)
-        {
-            delP();
-            return;
-        }
-
-        if (tail->PRN == prn)
-        {
-            delS();
-            return;
-        }
-
-        node *temp = head;
-
-        while (temp->next != NULL &&
-               temp->next->PRN != prn)
-        {
-            temp = temp->next;
-        }
-
-        if (temp->next == NULL)
-        {
-            cout << "Member not found." << endl;
-            return;
-        }
-
-        node *temp1 = temp->next;
-
-        temp->next = temp->next->next;
-
-        delete temp1;
-
-        cout << "Member deleted." << endl;
-    }
-
-    void count()
-    {
-        node *temp = head;
-        int count = 0;
-
+        Node *temp = head;
+        cout << "\n--- Pinnacle Club Members ---\n";
         while (temp != NULL)
         {
-            count++;
-            temp = temp->next;
-        }
-
-        cout << "Total No of Members are: "
-             << count << endl;
-    }
-
-    void diplay()
-    {
-        if (head == NULL)
-        {
-            cout << "Club not created." << endl;
-            return;
-        }
-
-        node *temp = head;
-
-        while (temp != NULL)
-        {
+            cout << "PRN- " << temp->PRN << "  Name- " << temp->name;
             if (temp == head)
             {
-                cout << "President: ";
+                cout << " (President)";
             }
-            else if (temp == tail)
+            else if (temp->next == NULL)
             {
-                cout << "Secretary: ";
+                cout << " (Secretary)";
+            }
+            cout << endl;
+            temp = temp->next;
+        }
+    }
+
+public:
+    void delPre()
+    {
+        Node *temp = head;
+        head = head->next;
+        temp->next = NULL;
+        delete temp;
+    }
+
+public:
+    void delSec()
+    {
+
+        Node *temp = head;
+        while (temp->next->next != NULL)
+        {
+            temp = temp->next;
+        }
+        delete temp->next;
+        temp->next = NULL;
+    }
+
+public:
+    void delMem(int prn)
+    {
+        Node *temp = head;
+        while (temp->next != NULL && temp->next->next != NULL)
+        {
+
+            if (temp->next->PRN == prn)
+            {
+                Node *del = temp->next;
+                temp->next = del->next;
+                delete del;
+
+                cout << "Member deleted\n";
+                return;
+            }
+            temp = temp->next;
+        }
+        cout << "Member Not Found\n";
+    }
+
+public:
+    void countM()
+    {
+        Node *temp = head;
+        int count = 0;
+        while (temp != NULL)
+        {
+            temp = temp->next;
+            count++;
+        }
+        cout << "Total Member of Club is: " << count;
+    }
+
+public:
+    void concat()
+    {
+        Node *head2 = NULL;
+        Node *tail2 = NULL;
+
+        int n, prn;
+        string name;
+
+        cout << "Enter number of members in second division: ";
+        cin >> n;
+
+        // Create second linked list
+        for (int i = 0; i < n; i++)
+        {
+            cout << "Enter PRN and Name: ";
+            cin >> prn >> name;
+
+            Node *newNode = createNode(prn, name);
+
+            if (head2 == NULL)
+            {
+                head2 = newNode;
+                tail2 = newNode;
             }
             else
             {
-                cout << "Member: ";
+                tail2->next = newNode;
+                tail2 = newNode;
             }
-
-            cout << temp->PRN << " ";
-            cout << temp->name << " -> ";
-
-            temp = temp->next;
         }
 
-        cout << "NULL" << endl;
-    }
-
-    void concat(List &B)
-    {
-        if (B.head == NULL)
-        {
-            cout << "Division B is empty." << endl;
-            return;
-        }
-
+        // Join two linked lists
         if (head == NULL)
         {
-            head = B.head;
-            tail = B.tail;
+            head = head2;
         }
         else
         {
-            tail->next = B.head;
-            tail = B.tail;
+            Node *temp = head;
+
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+
+            temp->next = head2;
         }
 
-        cout << "Lists concatenated successfully." << endl;
+        cout << "Two lists concatenated successfully!\n";
     }
 };
-
 int main()
 {
-    List A, B;
-
-    int choice, div, type;
-    int prn, n;
+    List l;
+    int prn;
     string name;
-
-    do
-    {
-        cout << "\n========== PINNACLE CLUB ==========" << endl;
-        cout << "1. Add" << endl;
-        cout << "2. Delete" << endl;
-        cout << "3. Display" << endl;
-        cout << "4. Count" << endl;
-        cout << "5. Concatenate A + B" << endl;
-        cout << "6. Display Both" << endl;
-        cout << "7. Clear" << endl;
-        cout << "8. Exit" << endl;
-        cout << "===================================" << endl;
-
-        cout << "Enter choice: ";
-        cin >> choice;
-
-        switch (choice)
-        {
-        case 1:
-        {
-            cout << "\n1. Division A" << endl;
-            cout << "2. Division B" << endl;
-            cout << "Enter division: ";
-            cin >> div;
-
-            cout << "\n1. President" << endl;
-            cout << "2. Member" << endl;
-            cout << "3. Secretary" << endl;
-            cout << "Enter type: ";
-            cin >> type;
-
-            if (type == 2)
-            {
-                cout << "How many members: ";
-                cin >> n;
-
-                for (int i = 0; i < n; i++)
-                {
-                    cout << "\nEnter PRN: ";
-                    cin >> prn;
-
-                    cout << "Enter Name: ";
-                    cin >> name;
-
-                    if (div == 1)
-                        A.addM(prn, name);
-                    else
-                        B.addM(prn, name);
-                }
-            }
-            else
-            {
-                cout << "Enter PRN: ";
-                cin >> prn;
-
-                cout << "Enter Name: ";
-                cin >> name;
-
-                if (div == 1)
-                {
-                    if (type == 1)
-                        A.addP(prn, name);
-                    else
-                        A.addS(prn, name);
-                }
-                else
-                {
-                    if (type == 1)
-                        B.addP(prn, name);
-                    else
-                        B.addS(prn, name);
-                }
-            }
-
-            break;
-        }
-
-        case 2:
-        {
-            cout << "\n1. Division A" << endl;
-            cout << "2. Division B" << endl;
-            cout << "Enter division: ";
-            cin >> div;
-
-            cout << "\n1. President" << endl;
-            cout << "2. Member" << endl;
-            cout << "3. Secretary" << endl;
-            cout << "Enter type: ";
-            cin >> type;
-
-            if (div == 1)
-            {
-                if (type == 1)
-                {
-                    A.delP();
-                }
-                else if (type == 2)
-                {
-                    cout << "Enter PRN: ";
-                    cin >> prn;
-                    A.delM(prn);
-                }
-                else
-                {
-                    A.delS();
-                }
-            }
-            else
-            {
-                if (type == 1)
-                {
-                    B.delP();
-                }
-                else if (type == 2)
-                {
-                    cout << "Enter PRN: ";
-                    cin >> prn;
-                    B.delM(prn);
-                }
-                else
-                {
-                    B.delS();
-                }
-            }
-
-            break;
-        }
-
-        case 3:
-        {
-            cout << "\n1. Division A" << endl;
-            cout << "2. Division B" << endl;
-            cout << "Enter division: ";
-            cin >> div;
-
-            if (div == 1)
-                A.diplay();
-            else
-                B.diplay();
-
-            break;
-        }
-
-        case 4:
-        {
-            cout << "\n1. Division A" << endl;
-            cout << "2. Division B" << endl;
-            cout << "Enter division: ";
-            cin >> div;
-
-            if (div == 1)
-                A.count();
-            else
-                B.count();
-
-            break;
-        }
-
-        case 5:
-        {
-            A.concat(B);
-
-            cout << "\nAfter Concatenation:" << endl;
-            A.diplay();
-
-            break;
-        }
-
-        case 6:
-        {
-            cout << "\n--- Division A ---" << endl;
-            A.diplay();
-
-            cout << "\n--- Division B ---" << endl;
-            B.diplay();
-
-            break;
-        }
-
-        case 7:
-        {
-            A.head = A.tail = NULL;
-            B.head = B.tail = NULL;
-
-            cout << "Both divisions cleared." << endl;
-
-            break;
-        }
-
-        case 8:
-        {
-            cout << "Program ended." << endl;
-            break;
-        }
-
-        default:
-        {
-            cout << "Invalid choice." << endl;
-        }
-        }
-
-    } while (choice != 8);
-
+    prn = 101;
+    name = "Tirth";
+    l.Addpre(prn, name);
+    prn = 102;
+    name = "LUCky";
+    l.addMem(prn, name);
+    prn = 103;
+    name = "OM";
+    l.addMem(prn, name);
+    prn = 104;
+    name = "sujal";
+    l.addMem(prn, name);
+    prn = 105;
+    name = "kalu";
+    l.Addsec(prn, name);
+    l.display();
+    l.countM();
+    l.concat();
+    l.display();
     return 0;
 }
