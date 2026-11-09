@@ -1,76 +1,61 @@
 #include <iostream>
 using namespace std;
+#define SIZE 100
 
-class Stack
+char stack[SIZE];
+int top = -1;
+
+void push(char ch)
 {
-    char st[100];
-    int top;
+    stack[++top] = ch;
+}
+char pop()
+{
+    return stack[top--];
+}
+bool isBalanced(string exp)
+{
 
-public:
-    Stack()
+    for (int i = 0; i < exp.length(); i++)
     {
-        top = -1;
-    }
-
-    void isvalid(string ch)
-    {
-
-        for (int i = 0; i < ch.size(); i++)
+        char ch = exp[i];
+        if (ch == '(' || ch == '{' || ch == '[')
+        {
+            push(ch);
+        }
+        else if (ch == ')' || ch == '}' || ch == ']')
         {
 
-            if (ch[i] == '(' || ch[i] == '{' || ch[i] == '[')
+            if (top == -1)
+                return false;
+
+            char x = pop();
+
+            if (ch == ')' && x != '(' ||
+                ch == '}' && x != '{' ||
+                ch == ']' && x != '[')
             {
-
-                top++;
-                st[top] = ch[i];
-            }
-
-            else if (ch[i] == ')' || ch[i] == '}' || ch[i] == ']')
-            {
-
-                if (top == -1)
-                {
-                    cout << "is not well parenthesized\n";
-                    return;
-                }
-
-                if ((st[top] == '(' && ch[i] == ')') ||
-                    (st[top] == '{' && ch[i] == '}') ||
-                    (st[top] == '[' && ch[i] == ']'))
-                {
-
-                    top--;
-                }
-                else
-                {
-                    cout << "is not well parenthesized\n";
-                    return;
-                }
+                return false;
             }
         }
-
-        if (top == -1)
-        {
-            cout << "is well parenthesized\n";
-        }
-        else
-        {
-            cout << "is not well parenthesized\n";
-        }
     }
-};
 
+    return (top == -1);
+}
 int main()
+
 {
+    string exp;
+    cout << "ENTER A EXPRESSION: ";
+    cin >> exp;
 
-    Stack s;
-
-    string ch;
-
-    cout << "Enter an expression: ";
-    cin >> ch;
-
-    s.isvalid(ch);
-
+    if (isBalanced(exp))
+    {
+        cout << "IS BALANCED\n";
+    }
+    else
+    {
+        cout << "IS NOT BALANCED\n";
+    }
     return 0;
 }
