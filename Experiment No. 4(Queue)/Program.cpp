@@ -1,141 +1,95 @@
-
 #include <iostream>
-#include <string>
 using namespace std;
-
-struct Node {
-    string order;
-    Node* next;
-};
-
-class PizzaParlor {
-    Node* front;
-    Node* rear;
-    int count;
-    int M;
-
-public:
-    PizzaParlor(int maxOrders) {
-        front = rear = nullptr;
-        count = 0;
-        M = maxOrders;
+#define SIZE 5
+int queue[SIZE];
+int f = 0;
+int r = -1;
+void insert()
+{
+    int order;
+    if (r == SIZE - 1)
+    {
+        cout << "ORDER IS FULL\n";
     }
+    else
+    {
+        cout << "ENTER order NUM: ";
+        cin >> order;
+        r++;
+        queue[r] = order;
 
-    void enqueue(string order) {
-        if (count == M) {
-            cout << "Queue is full! Cannot accept more orders.\n";
-            return;
-        }
-
-        Node* newNode = new Node;
-        newNode->order = order;
-        newNode->next = nullptr;
-
-        if (rear == nullptr) {
-            front = rear = newNode;
-        } else {
-            rear->next = newNode;
-            rear = newNode;
-        }
-
-        count++;
-        cout << "Order added successfully.\n";
+        cout << "order added SUsufilly!\n";
     }
-
-    void dequeue() {
-        if (front == nullptr) {
-            cout << "Queue is empty! No orders to serve.\n";
-            return;
-        }
-
-        Node* temp = front;
-        cout << "Serving order: " << temp->order << endl;
-
-        front = front->next;
-
-        if (front == nullptr) {
-            rear = nullptr;
-        }
-
-        delete temp;
-        count--;
+}
+void deldeteor()
+{
+    if (f > r || f == -1)
+    {
+        cout << "Queue is Empty\n";
     }
-
-    void display() {
-        if (front == nullptr) {
-            cout << "No pending orders.\n";
-            return;
-        }
-
-        Node* temp = front;
-        cout << "Current orders (Front to Rear):\n";
-
-        while (temp != nullptr) {
-            cout << temp->order << " -> ";
-            temp = temp->next;
-        }
-
-        cout << "NULL\n";
-        cout << "Orders in queue: " << count << "/" << M << endl;
-    }
-
-    ~PizzaParlor() {
-        while (front != nullptr) {
-            Node* temp = front;
-            front = front->next;
-            delete temp;
+    else
+    {
+        cout << "Order served: " << queue[f] << endl;
+        f++;
+        if (f > r)
+        {
+            f = r = -1;
         }
     }
-};
-
-int main() {
-    int M, choice;
-    string order;
-
-    cout << "Enter maximum number of orders: ";
-    cin >> M;
-
-    if (M <= 0) {
-        cout << "Maximum orders must be greater than zero.\n";
-        return 0;
+}
+void display()
+{
+    if (f == -1)
+    {
+        cout << "ON order AVailable\n";
     }
+    else
+    {
+        cout << "Pending Orders: ";
+        for (int i = f; i <= r; i++)
+        {
+            cout << queue[i] << " ";
+        }
+        cout << endl;
+    }
+}
+int main()
+{
+    int choice;
 
-    cin.ignore();
-
-    PizzaParlor p(M);
-
-    do {
-        cout << "\n--- PIZZA PARLOR QUEUE ---\n";
+    do
+    {
+        cout << "\n--- PIZZA PARLOR ---\n";
         cout << "1. Add Order\n";
-        cout << "2. Serve Order\n";
+        cout << "2. Delete Order\n";
         cout << "3. Display Orders\n";
         cout << "4. Exit\n";
+
         cout << "Enter your choice: ";
         cin >> choice;
-        cin.ignore();
 
-        switch (choice) {
-            case 1:
-                cout << "Enter order name: ";
-                getline(cin, order);
-                p.enqueue(order);
-                break;
+        switch (choice)
+        {
+        case 1:
+            insert();
+            break;
 
-            case 2:
-                p.dequeue();
-                break;
+        case 2:
+            deldeteor();
+            break;
 
-            case 3:
-                p.display();
-                break;
+        case 3:
+            display();
+            break;
 
-            case 4:
-                cout << "Exiting Pizza Parlor Queue.\n";
-                break;
+        case 4:
+            cout << "Thank You!\n";
+            break;
 
-            default:
-                cout << "Invalid choice! Try again.\n";
+        default:
+            cout << "Invalid Choice!\n";
         }
+
     } while (choice != 4);
 
     return 0;
